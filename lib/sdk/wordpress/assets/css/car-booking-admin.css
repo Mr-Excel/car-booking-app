@@ -1,0 +1,232 @@
+/* Car Booking Admin Styles */
+
+.car-booking-admin-container {
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+.car-booking-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.car-booking-admin-header h1 {
+  margin: 0;
+}
+
+/* Admin Table Styles */
+.car-booking-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.car-booking-admin-table th,
+.car-booking-admin-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.car-booking-admin-table th {
+  background-color: #f1f1f1;
+  font-weight: 600;
+}
+
+.car-booking-admin-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.car-booking-admin-table .status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.car-booking-admin-table .status.confirmed {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.car-booking-admin-table .status.pending {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.car-booking-admin-table .status.cancelled {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.car-booking-admin-table .status.completed {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+/* Admin Form Styles */
+.car-booking-admin-form {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.car-booking-admin-form .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.car-booking-admin-form .form-group {
+  margin-bottom: 15px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  flex: 1 0 45%;
+}
+
+.car-booking-admin-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.car-booking-admin-form input,
+.car-booking-admin-form select,
+.car-booking-admin-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.car-booking-admin-form textarea {
+  min-height: 100px;
+}
+
+/* Admin Tabs */
+.car-booking-admin-tabs {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.car-booking-admin-tabs .nav-tab {
+  float: left;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  margin-left: 0.5em;
+  padding: 5px 10px;
+  font-size: 14px;
+  line-height: 24px;
+  background: #e5e5e5;
+  color: #555;
+  text-decoration: none;
+}
+
+.car-booking-admin-tabs .nav-tab-active {
+  background: #fff;
+  color: #000;
+  border-bottom: 1px solid #fff;
+}
+
+/* Admin Cards */
+.car-booking-admin-cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.car-booking-admin-card {
+  flex: 1 0 300px;
+  margin: 0 10px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+.car-booking-admin-card-header {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  background: #f9f9f9;
+}
+
+.car-booking-admin-card-header h3 {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.car-booking-admin-card-body {
+  padding: 15px;
+}
+
+.car-booking-admin-card-footer {
+  padding: 12px 15px;
+  border-top: 1px solid #eee;
+  background: #f9f9f9;
+}
+
+/* Admin Pagination */
+.car-booking-admin-pagination {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.car-booking-admin-pagination .page-numbers {
+  display: inline-block;
+  min-width: 28px;
+  padding: 0 5px;
+  height: 28px;
+  margin: 0 3px;
+  border: 1px solid #ddd;
+  background: #f7f7f7;
+  color: #555;
+  cursor: pointer;
+  line-height: 28px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.car-booking-admin-pagination .page-numbers.current {
+  background: #0073aa;
+  border-color: #0073aa;
+  color: #fff;
+}
+
+/* Admin Messages */
+.car-booking-admin-message {
+  padding: 12px;
+  margin: 15px 0;
+  border-left: 4px solid #00a0d2;
+  background: #fff;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.car-booking-admin-message.success {
+  border-left-color: #46b450;
+}
+
+.car-booking-admin-message.error {
+  border-left-color: #dc3232;
+}
+
+.car-booking-admin-message.warning {
+  border-left-color: #ffb900;
+}
+
+/* Responsive Admin */
+@media screen and (max-width: 782px) {
+  .car-booking-admin-form .form-group {
+    flex: 1 0 100%;
+  }
+
+  .car-booking-admin-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,174 @@
+<div class="max-w-md mx-auto">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">Payment</h1>
+  
+  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2">Booking Summary</h2>
+      <div class="border-t border-gray-200 pt-4">
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Pickup:</span>
+          <span class="text-gray-900 font-medium"><%= @booking.pickup_location %></span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Dropoff:</span>
+          <span class="text-gray-900 font-medium"><%= @booking.dropoff_location %></span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Distance:</span>
+          <span class="text-gray-900 font-medium"><%= number_with_precision(@booking.distance, precision: 2) %> km</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Duration:</span>
+          <span class="text-gray-900 font-medium"><%= (@booking.duration / 60).to_i %> min</span>
+        </div>
+        <div class="flex justify-between mb-2">
+          <span class="text-gray-600">Passengers:</span>
+          <span class="text-gray-900 font-medium"><%= @booking.passengers %></span>
+        </div>
+        <div class="flex justify-between mb-2 border-t border-gray-200 pt-2 mt-2">
+          <span class="text-gray-800 font-semibold">Total:</span>
+          <span class="text-gray-900 font-bold">$<%= number_with_precision(@amount, precision: 2) %></span>
+        </div>
+      </div>
+    </div>
+    
+    <%= form_with(model: @payment, url: payments_path(booking_id: @booking.id), id: "payment-form", local: true) do |form| %>
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-4">Payment Method</h3>
+        
+        <div class="mb-4">
+          <div class="flex items-center mb-2">
+            <input type="radio" id="payment_method_cash" name="payment_method" value="cash" class="mr-2">
+            <label for="payment_method_cash" class="text-gray-700">Cash on Pickup</label>
+          </div>
+          <div class="flex items-center">
+            <input type="radio" id="payment_method_card" name="payment_method" value="credit_card" class="mr-2" checked>
+            <label for="payment_method_card" class="text-gray-700">Credit Card</label>
+          </div>
+        </div>
+        
+        <div id="card-payment-section">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Card Information</label>
+            <div id="card-element" class="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></div>
+            <div id="card-errors" class="text-red-600 text-sm mt-2"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex items-center justify-between">
+        <button type="submit" id="submit-button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Pay Now
+        </button>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Stripe
+    const stripe = Stripe('<%= Rails.application.credentials.stripe[:publishable_key] %>');
+    const elements = stripe.elements();
+    
+    // Create card Element
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+    
+    // Handle validation errors
+    cardElement.addEventListener('change', function(event) {
+      const displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+    
+    // Handle payment method selection
+    const cashRadio = document.getElementById('payment_method_cash');
+    const cardRadio = document.getElementById('payment_method_card');
+    const cardPaymentSection = document.getElementById('card-payment-section');
+    
+    cashRadio.addEventListener('change', function() {
+      if (this.checked) {
+        cardPaymentSection.style.display = 'none';
+      }
+    });
+    
+    cardRadio.addEventListener('change', function() {
+      if (this.checked) {
+        cardPaymentSection.style.display = 'block';
+      }
+    });
+    
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    const submitButton = document.getElementById('submit-button');
+    
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+      
+      if (paymentMethod === 'cash') {
+        // Submit form for cash payment
+        form.submit();
+      } else {
+        // Disable the submit button to prevent multiple clicks
+        submitButton.disabled = true;
+        submitButton.textContent = 'Processing...';
+        
+        // Create payment method
+        stripe.createPaymentMethod({
+          type: 'card',
+          card: cardElement
+        }).then(function(result) {
+          if (result.error) {
+            // Show error
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            submitButton.disabled = false;
+            submitButton.textContent = 'Pay Now';
+          } else {
+            // Send payment method ID to server
+            const hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'payment_method_id');
+            hiddenInput.setAttribute('value', result.paymentMethod.id);
+            form.appendChild(hiddenInput);
+            
+            // Submit the form
+            fetch(form.action, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+              },
+              body: JSON.stringify({
+                payment_method: paymentMethod,
+                payment_method_id: result.paymentMethod.id
+              })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                window.location.href = '/bookings';
+              } else {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = data.errors.join(', ');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Pay Now';
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              submitButton.disabled = false;
+              submitButton.textContent = 'Pay Now';
+            });
+          }
+        });
+      }
+    });
+  });
+</script>

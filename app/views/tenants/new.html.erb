@@ -1,0 +1,35 @@
+<div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">Create Your Car Booking Platform</h1>
+  
+  <%= form_with(model: @tenant, local: true) do |form| %>
+    <% if @tenant.errors.any? %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <h2 class="text-lg font-semibold"><%= pluralize(@tenant.errors.count, "error") %> prohibited this tenant from being saved:</h2>
+        <ul class="list-disc list-inside">
+          <% @tenant.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="mb-4">
+      <%= form.label :name, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "Company Name" %>
+    </div>
+  
+    <div class="mb-6">
+      <%= form.label :subdomain, class: "block text-gray-700 text-sm font-bold mb-2" %>
+      <%= form.text_field :subdomain, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", placeholder: "your-subdomain" %>
+      <p class="text-gray-600 text-xs italic mt-1">Only lowercase letters and numbers, no spaces or special characters.</p>
+    </div>
+  
+    <div class="flex items-center justify-between">
+      <%= form.submit "Create Platform", class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-8 text-center">
+  <p class="text-gray-600">Already have an account? <a href="#" class="text-blue-600 hover:underline">Login</a></p>
+</div>

@@ -1,0 +1,212 @@
+/* Car Booking Plugin Styles */
+
+.car-booking-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.car-booking-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form Styles */
+.car-booking-form {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.form-row .form-group {
+  flex: 1 0 45%;
+}
+
+.car-booking-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.car-booking-form input,
+.car-booking-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.car-booking-submit {
+  background-color: #0073aa;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.car-booking-submit:hover {
+  background-color: #005177;
+}
+
+.car-booking-submit:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Message Styles */
+.car-booking-message {
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.car-booking-message.success {
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+  color: #3c763d;
+}
+
+.car-booking-message.error {
+  background-color: #f2dede;
+  border: 1px solid #ebccd1;
+  color: #a94442;
+}
+
+.car-booking-message.info {
+  background-color: #d9edf7;
+  border: 1px solid #bce8f1;
+  color: #31708f;
+}
+
+/* Booking List Styles */
+.car-booking-list {
+  margin-top: 20px;
+}
+
+.car-booking-item {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.car-booking-header {
+  background: #f1f1f1;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.car-booking-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.car-booking-status {
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.car-booking-status.confirmed {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.car-booking-status.pending {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.car-booking-status.cancelled {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+.car-booking-status.completed {
+  background-color: #d9edf7;
+  color: #31708f;
+}
+
+.car-booking-details {
+  padding: 15px;
+}
+
+.car-booking-dates {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.car-booking-date {
+  margin-right: 20px;
+}
+
+.car-booking-price {
+  margin-bottom: 15px;
+}
+
+.car-booking-actions {
+  margin-top: 15px;
+}
+
+.car-booking-cancel {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.car-booking-cancel:hover {
+  background-color: #c9302c;
+}
+
+.car-booking-cancel:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .form-row {
+    display: block;
+  }
+
+  .form-row .form-group {
+    width: 100%;
+  }
+
+  .car-booking-dates {
+    flex-direction: column;
+  }
+
+  .car-booking-date {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+}
